@@ -1,10 +1,14 @@
 FROM debian:buster
-RUN apt update && apt install -y nginx openssl
-#RUN openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
-#    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" \
-#    -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt
-COPY nginx.conf /etc/nginx/nginx.conf
-#COPY ssl/vbachele.key /etc/nginx/ssl/vbachele.key
 
-#EXPOSE 443
-CMD ["nginx", "-g", "daemon off;"]
+RUN apt update && apt install -y nginx openssl
+
+
+RUN mkdir -p /etc/nginx/ssl
+
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+    -out /etc/nginx/ssl/omi.pem \
+    -keyout /etc/nginx/ssl/omi.key \
+    -subj "/C=MA/ST=Bng/L=Bng/O=42 School/OU=omi/CN=omi/"
+
+#COPY config/ngnix.conf /etc/nginx/conf.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
