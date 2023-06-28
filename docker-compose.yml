@@ -2,28 +2,28 @@ version: "3"
 
 volumes:
         wordpress:
-                name: wordpress
+               # name: wordpress
                 driver: local
                 driver_opts:
-                        device: /mnt/sharedfolder/srcs/volumes/Wordpress
+                        device: /home/test/Desktop/42-Inception/volumes/Wordpress
                         o: bind
                         type: none
         mariadb:
-                name: mariadb
+                #name: mariadb
                 driver: local
                 driver_opts:
-                        device: /mnt/sharedfolder/srcs/volumes/mariaDB
+                        device: /home/test/Desktop/42-Inception/volumes/mariaDB
                         o: bind
                         type: none
 
 networks:
   inception:
-    name: inception
+  #  name: inception
 
 services:
   nginx:
     container_name: nginx
-    build: ./requirements/nginx/.
+    build: ./requirements/Nginx/.
     image: nginx:42
     ports:
      - "443:443"
@@ -51,7 +51,7 @@ services:
     restart: always
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb/.
+    build: ./requirements/mariaDB/.
     image: mariadb:42
     volumes:
       - mariadb:/var/lib/mysql
