@@ -10,9 +10,5 @@ ENV db_user OMI
 COPY config/script.sh /utils/
 RUN chmod +x /utils/script.sh
 #RUN NIKK
-#RUN NIKK
-#RUN NIKK
-#RUN NIKK
-#RUN NIKK
 
 CMD ["/utils/script.sh"]
