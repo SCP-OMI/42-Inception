@@ -1,16 +1,9 @@
-FROM debian:buster-slim
-RUN apt-get update && apt-get install -y mariadb-server cowsay
+FROM debian:buster
+RUN apt-get update && apt-get install -y mariadb-server
 
 COPY config/50-server.cnf /etc/mysql/mariadb.conf.d/
 
-ENV db_name inc
-ENV db_pwd  000 
-ENV db_user OMI 
-
 COPY config/script.sh /utils/
 RUN chmod +x /utils/script.sh
-#RUN NIKK
-#RUN NIKK
-#RUN NIKK
-
+CMD ["/usr/bin/mysqld_safe"]
 CMD ["/utils/script.sh"]
