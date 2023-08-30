@@ -1,9 +1,0 @@
-FROM debian:buster
-RUN apt-get update && apt-get install -y mariadb-server
-
-COPY config/50-server.cnf /etc/mysql/mariadb.conf.d/
-
-COPY config/script.sh /utils/
-RUN chmod +x /utils/script.sh
-CMD ["/usr/bin/mysqld_safe"]
-CMD ["/utils/script.sh"]

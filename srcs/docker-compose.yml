@@ -1,18 +1,18 @@
-version: "3"
+version: "3.5"
 
 volumes: 
         wordpress:
                 name: wordpress
                 driver: local
                 driver_opts:
-                        device: stack/wordpress/volume/.
+                        device: /home/omi/Desktop/data/wordpress/.
                         o: bind
                         type: none
         mariadb:
                 name : mariadb
                 driver: local
                 driver_opts:
-                        device: stack/mariadb/volume/.
+                        device: /home/omi/Desktop/data/mariadb/.
                         o: bind
                         type: none
 networks:
@@ -22,8 +22,8 @@ networks:
 services:
         nginx:
                 container_name: nginx
-                build: ./stack/nginx/.
-                image: nginx:42
+                build: ./requirements/nginx/.
+                image: nginx:omi
                 ports: 
                 - "443:443"
                 depends_on: 
@@ -35,10 +35,21 @@ services:
                 env_file: 
                 - .env
                 restart: always
+        mariadb:
+                env_file: 
+                - .env
+                container_name: mariadb
+                build: ./requirements/mariadb/.
+                image: mariadb:omi
+                volumes: 
+                - mariadb:/var/lib/mysql
+                networks: 
+                - inception
+                restart: always
         wordpress:
                 container_name: wordpress
-                build: ./stack/wordpress/.
-                image: wordpress:42
+                build: ./requirements/wordpress/.
+                image: wordpress:omi
                 depends_on:
                 - mariadb
                 volumes: 
@@ -48,15 +59,5 @@ services:
                 networks: 
                 - inception
                 restart: always
-        mariadb:
-                container_name: mariadb
-                build: ./stack/mariadb/.
-                image: mariadb:42
-                volumes: 
-                - mariadb:/var/lib/mysql
-                env_file: 
-                - .env
-                networks: 
-                - inception
-                restart: always
+
         
